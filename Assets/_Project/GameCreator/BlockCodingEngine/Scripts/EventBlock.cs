@@ -28,6 +28,7 @@ public class EventBlock : BaseBlock
     public List<BaseAction> GetActions => staticActionQueue;
 
     public static event EventHandler<EventBlock> OnActionAdded;
+    public static event EventHandler<EventBlock> OnActionUpdated;
 
     [ContextMenu("Test serialization")]
     public string GetData()
@@ -40,7 +41,9 @@ public class EventBlock : BaseBlock
 
     public void DeserializeFromJson(string json)
     {
-        EventBlockData data = JsonConvert.DeserializeObject<EventBlockData>(json);
+        EventBlockData data = new EventBlockData();
+        data = JsonConvert.DeserializeObject<EventBlockData>(json);
+        
 
         SetSpriteIndex(data.spriteIndex);
         SetTrigger(data.eventTrigger);
@@ -78,7 +81,10 @@ public class EventBlock : BaseBlock
                 {
                     LeftVariable = data.parameters["LeftVariable"].ToString(),
                     RightVariable = data.parameters["RightVariable"].ToString(),
-                    Comparison = (IfElseAction.ComparisonOperator)Enum.Parse(typeof(IfElseAction.ComparisonOperator), data.parameters["ComparisonOperator"].ToString())
+                    ExplicitRightVariable = (bool)data.parameters["RightVariableExplicit"],
+                    RightVariableValue = (int)data.parameters["RightVariableValue"],
+                    Comparison = (IfElseAction.ComparisonOperator)Enum.Parse(typeof(IfElseAction.ComparisonOperator), data.parameters["ComparisonOperator"].ToString()),
+                    IfAction = DeserializeAction(JsonConvert.DeserializeObject<ActionData>(data.parameters["ifAction"].ToString()))
                 };
                 break;
         }
@@ -229,6 +235,11 @@ public class EventBlock : BaseBlock
     internal void StopExecution()
     {
         execute = false;
+    }
+
+    public void SaveData()
+    {
+        OnActionUpdated?.Invoke(this, this);
     }
 }
 public enum EventTrigger

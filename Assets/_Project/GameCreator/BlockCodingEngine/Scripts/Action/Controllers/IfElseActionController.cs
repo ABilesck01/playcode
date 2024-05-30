@@ -8,8 +8,10 @@ public class IfElseActionController : BaseController
 {
     public TMP_Dropdown dropdownLeftVariable;
     public TMP_Dropdown dropdownRightVariable;
+    public TMP_InputField inputRightVariable;
     public TMP_Dropdown dropdownOperator;
     public Transform ifActionContainer;
+    public Toggle toggleExplicitRightVar;
 
     public Button btnSetIfAction;
     public Button btnSetElseAction;
@@ -30,9 +32,31 @@ public class IfElseActionController : BaseController
         dropdownLeftVariable.onValueChanged.AddListener(OnLeftVariableChange);
         dropdownRightVariable.onValueChanged.AddListener(OnRightVariableChange);
         dropdownOperator.onValueChanged.AddListener(OnOperatorChange);
-
+        toggleExplicitRightVar.onValueChanged.AddListener(SetExplicitVariable);
+        inputRightVariable.onValueChanged.AddListener(OnInputRightVariableChange);
         btnSetIfAction.onClick.AddListener(SetIfAction);
         //btnSetElseAction.onClick.AddListener(SetElseAction);
+    }
+
+    private void OnInputRightVariableChange(string newValue)
+    {
+        if (int.TryParse(newValue, out int result))
+        {
+            ((IfElseAction)action).RightVariableValue = result;
+        }
+        else
+        {
+            inputRightVariable.text = "0";
+            ((IfElseAction)action).RightVariableValue = 0;
+        }
+    }
+
+    private void SetExplicitVariable(bool isExp)
+    {
+        ((IfElseAction)action).ExplicitRightVariable = isExp;
+
+        inputRightVariable.gameObject.SetActive(isExp);
+        dropdownRightVariable.gameObject.SetActive(!isExp);
     }
 
     private void PopulateVariableDropdowns()
@@ -90,24 +114,31 @@ public class IfElseActionController : BaseController
         ((IfElseAction)this.action).IfAction = action;
     }
 
-    private void SetElseAction()
-    {
-        // Implement a dialog or selection system to assign the 'Else' action
-    }
-
     public override void SetAction(BaseAction action)
     {
         base.SetAction(action);
+
+        if (dropdownLeftVariable.options.Count > 0)
+        {
+            OnLeftVariableChange(0);
+            OnRightVariableChange(0);
+        }
+
         IfElseAction ifElseAction = action as IfElseAction;
         if (ifElseAction != null)
         {
             int leftIndex = VariableController.instance.Dict.FindIndex(v => v.key == ifElseAction.LeftVariable);
             int rightIndex = VariableController.instance.Dict.FindIndex(v => v.key == ifElseAction.RightVariable);
+
+            toggleExplicitRightVar.isOn = ifElseAction.ExplicitRightVariable;
+            SetExplicitVariable(ifElseAction.ExplicitRightVariable);
+
+            inputRightVariable.text = ifElseAction.RightVariableValue.ToString();
+
             dropdownLeftVariable.value = leftIndex >= 0 ? leftIndex : 0;
             dropdownRightVariable.value = rightIndex >= 0 ? rightIndex : 0;
             dropdownOperator.value = (int)ifElseAction.Comparison;
 
-            // Configurar as visualizações para as ações 'if' e 'else'
             if (ifElseAction.IfAction != null)
             {
                 btnSetIfAction.gameObject.SetActive(false);
