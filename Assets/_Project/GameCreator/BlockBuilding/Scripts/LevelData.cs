@@ -82,10 +82,9 @@ public class ActionData
         this.type = action.GetType().Name;
         this.parameters = new Dictionary<string, object>();
 
-        // Reflect through each type of action to extract parameters
         if (action is MoveAction moveAction)
         {
-            parameters.Add("Direction", moveAction.Direction);
+            parameters.Add("Direction", moveAction.Direction.ToString());
         }
         else if (action is SetVariableAction setVariableAction)
         {
@@ -98,9 +97,12 @@ public class ActionData
             parameters.Add("LeftVariable", ifElseAction.LeftVariable);
             parameters.Add("RightVariable", ifElseAction.RightVariable);
             parameters.Add("ComparisonOperator", ifElseAction.Comparison);
+            parameters.Add("RightVariableValue", ifElseAction.RightVariableValue);
+            parameters.Add("RightVariableExplicit", ifElseAction.ExplicitRightVariable);
+
             if(ifElseAction.IfAction != null)
             {
-                parameters.Add("ifAction", ifElseAction.IfAction.GetType().Name);
+                parameters.Add("ifAction", new ActionData(ifElseAction.IfAction));
             }
         }
     }

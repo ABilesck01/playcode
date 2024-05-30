@@ -10,6 +10,24 @@ public class IfElseAction : BaseAction
     [SerializeField] private BaseAction ifAction;
     [SerializeField] private BaseAction elseAction;
 
+    private bool explicitRightVariable;
+
+    public bool ExplicitRightVariable
+    {
+        get { return explicitRightVariable; }
+        set { explicitRightVariable = value; }
+    }
+
+
+    private int rightVariableValue;
+
+    public int RightVariableValue
+    {
+        get { return rightVariableValue; }
+        set { rightVariableValue = value; }
+    }
+
+
     public string LeftVariable { get => leftVariable; set => leftVariable = value; }
     public string RightVariable { get => rightVariable; set => rightVariable = value; }
     public ComparisonOperator Comparison { get => comparisonOperator; set => comparisonOperator = value; }
@@ -45,7 +63,7 @@ public class IfElseAction : BaseAction
     private bool EvaluateCondition()
     {
         int leftValue = VariableController.instance.GetVariable(leftVariable);
-        int rightValue = VariableController.instance.GetVariable(rightVariable);
+        int rightValue = explicitRightVariable ? rightVariableValue : VariableController.instance.GetVariable(rightVariable);
 
         switch (comparisonOperator)
         {

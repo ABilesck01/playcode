@@ -100,6 +100,8 @@ public class EventBlockView : MonoBehaviour
 
     public void CloseView() 
     {
+        this.currentEvent.SaveData();
+
         LevelController.hasOpenScreen = false;
         view.SetActive(false);
     }
