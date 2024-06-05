@@ -45,6 +45,7 @@ public class IfElseAction : BaseAction
 
     public IfElseAction()
     {
+        id = Guid.NewGuid();
         this.Name = "Condição";
     }
 
@@ -53,10 +54,6 @@ public class IfElseAction : BaseAction
         if (EvaluateCondition())
         {
             ifAction?.Execute(block);
-        }
-        else
-        {
-            elseAction?.Execute(block);
         }
     }
 

@@ -154,7 +154,7 @@ MonoBehaviour:
   btnClose: {fileID: 7651467060432924391}
   BaseActionButtonTemplate: {fileID: 766404677094913169, guid: d35dbe68e659361468c7b9fff7b67c39, type: 3}
   container: {fileID: 8105865665188276399}
-  textAction: {fileID: 8928174051464368828, guid: 7e629da99d82bb847969589da26cb805, type: 3}
+  textAction: {fileID: 5067093232604795819, guid: 7e629da99d82bb847969589da26cb805, type: 3}
   variableAction: {fileID: 732116524300769735, guid: 59f0edddfc902634db50b5fdcdb24232, type: 3}
   moveAction: {fileID: 1333116196831138779, guid: 939102bc18beaf84693d83cec986200e, type: 3}
   conditionAction: {fileID: 4338317479747387913, guid: 989759bfe0115ad41b342c67205492f1, type: 3}

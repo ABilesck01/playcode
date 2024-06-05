@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 [System.Serializable]
 public class MoveAction : BaseAction
@@ -13,6 +14,7 @@ public class MoveAction : BaseAction
 
     public MoveAction()
     {
+        id = Guid.NewGuid();
         this.Name = "Mover";
         this.TutorialText = "Move o evento na direção desejada";
     }

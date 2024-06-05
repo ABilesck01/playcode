@@ -69,4 +69,9 @@ public class ActionView : MonoBehaviour
             OnAddAction?.Invoke(controller, action);
         });
     }
+
+    internal void UpdateView(EventBlock eventBlock)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -72,4 +72,14 @@ public class VariableController : MonoBehaviour
             throw new KeyNotFoundException($"The variable '{name}' is not defined.");
         }
     }
+
+    public void SetVariables(List<string> variableNames)
+    {
+        variables.Clear();
+        foreach (var name in variableNames)
+        {
+            variables.Add(name, 0);
+            dict.Add(new dictStruct { key = name, value = 0 });
+        }
+    }
 }

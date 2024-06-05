@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 
 public class EventBlock : BaseBlock
 {
@@ -14,18 +15,21 @@ public class EventBlock : BaseBlock
     private int spriteIndex;
     private EventTrigger eventTrigger;
 
-    private List<BaseAction> staticActionQueue;
+    private Queue<BaseAction> staticActionQueue;
     private Queue<BaseAction> actionQueue;
     private bool execute = false;
+    private bool isPaused = false;
 
     private Sprite defaultSprite;
     private Vector3 defaultPosition;
+    public bool isLooped;
+    public bool isSolid;
 
     public List<EventGraphicsAsset.GraphicData> GetGraphics => tiles.allGraphics;
     public int CurrentSprite => spriteIndex + 1;
     public int CurrentTrigger => (int)eventTrigger;
 
-    public List<BaseAction> GetActions => staticActionQueue;
+    public Queue<BaseAction> GetActions => staticActionQueue;
 
     public static event EventHandler<EventBlock> OnActionAdded;
     public static event EventHandler<EventBlock> OnActionUpdated;
@@ -45,8 +49,10 @@ public class EventBlock : BaseBlock
         data = JsonConvert.DeserializeObject<EventBlockData>(json);
         
 
-        SetSpriteIndex(data.spriteIndex);
+        SetSpriteIndex(data.spriteIndex - 1);
         SetTrigger(data.eventTrigger);
+        isLooped = data.isLoop;
+        SetSolid(data.isSolid);
         actionQueue.Clear();
         staticActionQueue.Clear();
 
@@ -87,6 +93,12 @@ public class EventBlock : BaseBlock
                     IfAction = DeserializeAction(JsonConvert.DeserializeObject<ActionData>(data.parameters["ifAction"].ToString()))
                 };
                 break;
+            case "ShowTextAction":
+                action = new ShowTextAction
+                {
+                    Display = data.parameters["display"].ToString()
+                };
+                break;
         }
         return action;
     }
@@ -100,6 +112,19 @@ public class EventBlock : BaseBlock
             float.Parse(s[2]));
     }
 
+    public void PauseExecution()
+    {
+        isPaused = true;
+        Debug.Log("Execution paused.");
+    }
+
+    public void ContinueExecution()
+    {
+        isPaused = false;
+        Debug.Log("Execution continued.");
+        ProcessActions();
+    }
+
     private void Awake()
     {
         defaultPosition = transform.position;
@@ -108,7 +133,7 @@ public class EventBlock : BaseBlock
         defaultSprite = spriteRenderer.sprite;
         boxCollider = GetComponent<BoxCollider2D>();
         actionQueue = new Queue<BaseAction>();
-        staticActionQueue = new List<BaseAction>();
+        staticActionQueue = new Queue<BaseAction>();
     }
 
     private void OnEnable()
@@ -135,12 +160,33 @@ public class EventBlock : BaseBlock
 
     private void TickSystem_OnTick(object sender, TickSystem.OnTickEventArgs e)
     {
-        if (!execute)
+        if (!execute || isPaused)
             return;
 
-        if(actionQueue.Count <= 0 )
+
+        ProcessActions();
+    }
+
+    private void ProcessActions()
+    {
+        if (actionQueue.Count <= 0)
         {
-            return;
+            if (isLooped)
+            {
+                foreach (var a in staticActionQueue)
+                {
+                    this.actionQueue.Enqueue(a);
+                }
+            }
+            else
+            {
+                execute = false;
+                foreach (var a in staticActionQueue)
+                {
+                    this.actionQueue.Enqueue(a);
+                }
+                return;
+            }
         }
         Debug.Log("executando", this);
 
@@ -157,7 +203,8 @@ public class EventBlock : BaseBlock
         }
         else
         {
-            boxCollider.enabled = false;
+            if(!isSolid)
+                boxCollider.enabled = false;
         }
         if(spriteIndex < 0)
             spriteRenderer.gameObject.SetActive(false);
@@ -227,12 +274,23 @@ public class EventBlock : BaseBlock
         Debug.Log($"Enqueued action {action.Name}");
 
         this.actionQueue.Enqueue(action);
-        staticActionQueue.Add(action);
+        this.staticActionQueue.Enqueue(action);
 
         OnActionAdded?.Invoke(this, this);
     }
 
-    internal void StopExecution()
+    public void RemoveAction(Guid actionId)
+    {
+        var actionsToKeep = new Queue<BaseAction>(actionQueue.Where(action => action.id != actionId));
+        actionQueue = actionsToKeep;
+        staticActionQueue = actionsToKeep;
+
+        OnActionUpdated?.Invoke(this, this);
+
+        Debug.Log($"Action with ID '{actionId}' removed if existed.");
+    }
+
+    public void StopExecution()
     {
         execute = false;
     }
@@ -241,11 +299,19 @@ public class EventBlock : BaseBlock
     {
         OnActionUpdated?.Invoke(this, this);
     }
+
+    public void SetSolid(bool value)
+    {
+        this.isSolid = value;
+        if(value)
+            boxCollider.enabled = true;
+
+        boxCollider.isTrigger = !value;
+    }
 }
 public enum EventTrigger
 {
     OnStartGame = 0,
-    OnPlayerTouch,
-    OnPlayerAction
+    OnPlayerTouch
 }
 

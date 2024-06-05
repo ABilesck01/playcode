@@ -1,29 +1,36 @@
 using System;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 
 public class MoveActionController : BaseController
 {
-    public TMP_InputField txtDirectionX;
-    public TMP_InputField txtDirectionY;
+    public TMP_Dropdown directionDropdown;
 
     private void Awake()
     {
-        txtDirectionX.onValueChanged.AddListener(OnDirectionXChange);
-        txtDirectionY.onValueChanged.AddListener(OnDirectionYChange);
+        directionDropdown.onValueChanged.AddListener(OnDirectionChange);
     }
 
-    private void OnDirectionXChange(string newValue)
+    private void OnDirectionChange(int index)
     {
-        Vector3 direction = ((MoveAction)action).Direction;
-        direction.x = float.Parse(newValue);
-        ((MoveAction)action).Direction = direction;
-    }
+        Vector3 direction = Vector3.zero;
+        switch (index)
+        {
+            case 0: // Direita
+                direction = new Vector3(1, 0, 0);
+                break;
+            case 1: // Esquerda
+                direction = new Vector3(-1, 0, 0);
+                break;
+            case 2: // Cima
+                direction = new Vector3(0, 1, 0);
+                break;
+            case 3: // Baixo
+                direction = new Vector3(0, -1, 0);
+                break;
+        }
 
-    private void OnDirectionYChange(string newValue)
-    {
-        Vector3 direction = ((MoveAction)action).Direction;
-        direction.y = float.Parse(newValue);
         ((MoveAction)action).Direction = direction;
     }
 
@@ -33,8 +40,15 @@ public class MoveActionController : BaseController
         MoveAction moveAction = action as MoveAction;
         if (moveAction != null)
         {
-            txtDirectionX.text = moveAction.Direction.x.ToString();
-            txtDirectionY.text = moveAction.Direction.y.ToString();
+            Vector3 direction = moveAction.Direction;
+            if (direction == new Vector3(1, 0, 0))
+                directionDropdown.value = 0;
+            else if (direction == new Vector3(-1, 0, 0))
+                directionDropdown.value = 1;
+            else if (direction == new Vector3(0, 1, 0))
+                directionDropdown.value = 2;
+            else if (direction == new Vector3(0, -1, 0))
+                directionDropdown.value = 3;
         }
     }
 }

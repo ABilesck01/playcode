@@ -11,6 +11,8 @@ public class EventBlockView : MonoBehaviour
     [SerializeField] private Button closeButton;
     [SerializeField] private TMP_Dropdown graphicDropdown;
     [SerializeField] private TMP_Dropdown triggerDropdown;
+    [SerializeField] private Toggle loopActions;
+    [SerializeField] private Toggle solidBlock;
     [Space]
     [SerializeField] private Button newAction;
     [SerializeField] private Transform actionContainer;
@@ -27,13 +29,15 @@ public class EventBlockView : MonoBehaviour
     public static EventBlockView instance;
 
     private void Awake()
-    { 
+    {
 
         instance = this;
         closeButton.onClick.AddListener(CloseView);
         graphicDropdown.onValueChanged.AddListener(OnGraphicDropdownChanged);
         triggerDropdown.onValueChanged.AddListener(OnTriggerDropdownChanged);
-        newAction.onClick.AddListener(() => 
+        loopActions.onValueChanged.AddListener(OnLoopActionChanged);
+        solidBlock.onValueChanged.AddListener(OnSolidBlockChanged);
+        newAction.onClick.AddListener(() =>
         {
             ActionView.OpenActionView(actionView, transform);
             ActionView.currentActionView.SetEvent(currentEvent);
@@ -47,32 +51,42 @@ public class EventBlockView : MonoBehaviour
         var ctl = Instantiate(controller, actionContainer);
         ctl.SetActionView(actionView);
         ctl.SetEventBlock(this.currentEvent);
+        ctl.SetEventBlockView(this);
         ctl.SetAction(action);
     }
 
     public void OpenView(EventBlock eventBlock)
     {
         LevelController.hasOpenScreen = true;
+        UpdateView(eventBlock);
+        view.SetActive(true);
+        UpdateGraphicDropdown();
+        graphicDropdown.value = currentEvent.CurrentSprite;
+        triggerDropdown.value = currentEvent.CurrentTrigger;
+        loopActions.isOn = currentEvent.isLooped;
+        solidBlock.isOn = currentEvent.isSolid;
+    }
+
+    public void UpdateView(EventBlock eventBlock)
+    {
         foreach (Transform block in actionContainer)
         {
             Destroy(block.gameObject);
         }
         currentEvent = eventBlock;
-       
+
         foreach (BaseAction action in currentEvent.GetActions)
         {
             AddActionToUI(action);
         }
-        view.SetActive(true);
-        UpdateGraphicDropdown();
-        graphicDropdown.value = currentEvent.CurrentSprite;
-        triggerDropdown.value = currentEvent.CurrentTrigger;
     }
 
     private void AddActionToUI(BaseAction action)
     {
         BaseController controller = InstantiateControllerForAction(action);
         controller.SetAction(action);
+        controller.SetEventBlock(currentEvent);
+        controller.SetEventBlockView(this);
         controller.SetActionView(actionView);
         controller.transform.SetParent(actionContainer, false);
     }
@@ -91,14 +105,14 @@ public class EventBlockView : MonoBehaviour
                 return Instantiate(conditionAction);
             case nameof(DisableObjectAction):
                 return Instantiate(disableAction);
-            case nameof(EndGameAction): 
+            case nameof(EndGameAction):
                 return Instantiate(endGameAction);
             default:
                 throw new InvalidOperationException("No controller available for action type " + action.GetType().Name);
         }
     }
 
-    public void CloseView() 
+    public void CloseView()
     {
         this.currentEvent.SaveData();
 
@@ -113,8 +127,8 @@ public class EventBlockView : MonoBehaviour
         graphicDropdown.ClearOptions();
         TMP_Dropdown.OptionData defaulData = new TMP_Dropdown.OptionData();
         defaulData.text = "None";
-        List< TMP_Dropdown.OptionData> allData = new List<TMP_Dropdown.OptionData> ();
-        allData.Add (defaulData);
+        List<TMP_Dropdown.OptionData> allData = new List<TMP_Dropdown.OptionData>();
+        allData.Add(defaulData);
         foreach (EventGraphicsAsset.GraphicData item in currentEvent.GetGraphics)
         {
             allData.Add(new TMP_Dropdown.OptionData
@@ -134,5 +148,15 @@ public class EventBlockView : MonoBehaviour
     private void OnTriggerDropdownChanged(int index)
     {
         currentEvent.SetTrigger(index);
+    }
+
+    private void OnLoopActionChanged(bool value)
+    {
+        currentEvent.isLooped = value;
+    }
+
+    private void OnSolidBlockChanged(bool value)
+    {
+        currentEvent.SetSolid(value);
     }
 }

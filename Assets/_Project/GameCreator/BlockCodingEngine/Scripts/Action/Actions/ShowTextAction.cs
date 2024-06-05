@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,15 +13,19 @@ public class ShowTextAction : BaseAction
         set { display = value; }
     }
 
-
     public ShowTextAction()
     {
-        this.Name = "Display Text";
+        id = Guid.NewGuid();
+        this.Name = "Mostrar texto";
         this.TutorialText = "Use this command to display a text in view";
     }
 
     public override void Execute(EventBlock block)
     {
-        Debug.Log("show text");
+        block.PauseExecution();
+        DisplayTextView.instance.ShowText(display, () =>
+        {
+            block.ContinueExecution();
+        });
     }
 }

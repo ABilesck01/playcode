@@ -123,6 +123,7 @@ public class BlockBuildingSystem : MonoBehaviour
 
     public BaseBlock SystemPlaceBlock(BlockAsset asset, int x, int y)
     {
+
         GridObject gridObject = grid.GetValue(x, y);
         var block = BaseBlock.Place(asset, grid.GetWorldPosition(x, y), new Vector2Int(x, y));
         gridObject.SetBlockObject(block);

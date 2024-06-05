@@ -28,6 +28,7 @@ public class SetVariableAction : BaseAction
 
     public SetVariableAction()
     {
+        id = Guid.NewGuid();
         this.Name = "Variavel";
         this.TutorialText = "Use this command to change a value in memory.";
     }

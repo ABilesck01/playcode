@@ -6,10 +6,12 @@ using UnityEngine;
 public class LevelData
 {
     public List<BaseBlockData> blocks;
+    public List<string> variables;
 
     public LevelData() 
     {
         blocks = new List<BaseBlockData>();
+        variables = new List<string>();
     }
 
     public void AddBlock(BaseBlock block)
@@ -45,12 +47,19 @@ public class BaseBlockData
     public int x;
     public int y;
     public string customData;
+
+    public BaseBlockData()
+    {
+        customData = "";
+    }
 }
 [System.Serializable]
 public class EventBlockData
 {
     public int spriteIndex;
     public int eventTrigger;
+    public bool isLoop;
+    public bool isSolid;
     public List<ActionData> actions;
 
     public EventBlockData() : base()
@@ -62,6 +71,8 @@ public class EventBlockData
     {
         this.spriteIndex = eventBlock.CurrentSprite;
         this.eventTrigger = eventBlock.CurrentTrigger;
+        this.isLoop = eventBlock.isLooped;
+        this.isSolid = eventBlock.isSolid;
         this.actions = new List<ActionData>();
 
         foreach (var action in eventBlock.GetActions)
@@ -76,6 +87,12 @@ public class ActionData
 {
     public string type;
     public Dictionary<string, object> parameters;
+
+    public ActionData()
+    {
+        type = "";
+        parameters = new Dictionary<string, object>();
+    }
 
     public ActionData(BaseAction action)
     {
@@ -104,6 +121,10 @@ public class ActionData
             {
                 parameters.Add("ifAction", new ActionData(ifElseAction.IfAction));
             }
+        }
+        else if(action is ShowTextAction showTextAction)
+        {
+            parameters.Add("display", showTextAction.Display);
         }
     }
 }

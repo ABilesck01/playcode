@@ -15,7 +15,8 @@ namespace Gameplay
         private Transform _transform;
         private Rigidbody2D rb;
         private Animator animator;
-        
+
+        private bool canControl = true;
         private bool facingRight = true;
         private float horizontalInput;
 
@@ -26,8 +27,41 @@ namespace Gameplay
             rb = GetComponent<Rigidbody2D>();
         }
 
+        private void Start()
+        {
+            canControl = true;
+        }
+
+        private void OnEnable()
+        {
+            DisplayTextView.OnTextShow += DisplayTextView_OnTextShow;
+            DisplayTextView.OnTextHide += DisplayTextView_OnTextHide;
+        }
+
+        private void DisplayTextView_OnTextHide(object sender, System.EventArgs e)
+        {
+            canControl = true;
+        }
+
+        private void OnDisable()
+        {
+            DisplayTextView.OnTextShow -= DisplayTextView_OnTextShow;
+            DisplayTextView.OnTextHide -= DisplayTextView_OnTextHide;
+        }
+
+        private void DisplayTextView_OnTextShow(object sender, System.EventArgs e)
+        {
+            canControl = false;
+        }
+
         private void Update()
         {
+            if (!canControl)
+            {
+                horizontalInput = 0;
+                animator.SetBool("run", false);
+                return;
+            }
             horizontalInput = Input.GetAxisRaw("Horizontal");
 
             animator.SetBool("run", horizontalInput != 0);
@@ -55,6 +89,12 @@ namespace Gameplay
 
         private void FixedUpdate()
         {
+            if (!canControl)
+            {
+                rb.velocity = Vector2.zero;
+                return;
+            }
+
             rb.velocity = new Vector2(horizontalInput * speed, rb.velocity.y);
         }
 

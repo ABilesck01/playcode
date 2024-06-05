@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class BaseAction
 {
     [SerializeField] private string name;
 	[SerializeField] private string tutorialText;
+
+    public Guid id;
 
     public string Name
     {
@@ -20,6 +23,10 @@ public class BaseAction
 		set { tutorialText = value; }
 	}
 
+    public BaseAction()
+    {
+        id = Guid.NewGuid();
+    }
     
 
     public virtual void Execute(EventBlock block)

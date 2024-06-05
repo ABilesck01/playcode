@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 public class LevelDataController : MonoBehaviour
 {
@@ -47,10 +48,12 @@ public class LevelDataController : MonoBehaviour
             string json = System.IO.File.ReadAllText(filePath);
             data = JsonConvert.DeserializeObject<LevelData>(json);
 
+            VariableController.instance.SetVariables(data.variables);
+
             foreach (var item in data.blocks)
             {
                 var block = BlockBuildingSystem.instance.SystemPlaceBlock(blockAssetList.GetBlock(item.assetId), item.x, item.y);
-                if(block is EventBlock)
+                if(block is EventBlock && !string.IsNullOrEmpty(item.customData))
                 {
                     var eventJson = item.customData.ToString();
                     ((EventBlock)block).DeserializeFromJson(eventJson);
@@ -70,6 +73,7 @@ public class LevelDataController : MonoBehaviour
         BlockBuildingSystem.OnEraseBlock += BlockBuildingSystem_OnEraseBlock;
         EventBlock.OnActionAdded += EventBlock_OnActionAdded;
         EventBlock.OnActionUpdated += EventBlock_OnActionAdded;
+        VariableController.onVariablesChanged += VariableController_onVariablesChanged;
     }
 
     private void OnDisable()
@@ -78,6 +82,18 @@ public class LevelDataController : MonoBehaviour
         BlockBuildingSystem.OnEraseBlock -= BlockBuildingSystem_OnEraseBlock;
         EventBlock.OnActionAdded -= EventBlock_OnActionAdded;
         EventBlock.OnActionUpdated -= EventBlock_OnActionAdded;
+        VariableController.onVariablesChanged += VariableController_onVariablesChanged;
+    }
+
+    private void VariableController_onVariablesChanged()
+    {
+        List<string> variableNames = new List<string>();
+        foreach (var item in VariableController.instance.Dict)
+        {
+            variableNames.Add(item.key);
+        }
+
+        data.variables = variableNames;
     }
 
     private void BlockBuildingSystem_OnEraseBlock(object sender, BlockBuildingSystem.BlockEventArgs e)
