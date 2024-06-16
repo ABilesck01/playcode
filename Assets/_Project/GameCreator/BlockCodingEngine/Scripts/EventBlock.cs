@@ -9,6 +9,7 @@ public class EventBlock : BaseBlock
     //comandos do evento
     //grafico
     [SerializeField] private EventGraphicsAsset tiles;
+    [SerializeField] private GameObject view;
 
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D boxCollider;
@@ -24,6 +25,8 @@ public class EventBlock : BaseBlock
     private Vector3 defaultPosition;
     public bool isLooped;
     public bool isSolid;
+
+    private bool isDisabled = false;
 
     public List<EventGraphicsAsset.GraphicData> GetGraphics => tiles.allGraphics;
     public int CurrentSprite => spriteIndex + 1;
@@ -152,6 +155,8 @@ public class EventBlock : BaseBlock
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (isDisabled) return;
+
         if(collision.CompareTag("Player") && eventTrigger == EventTrigger.OnPlayerTouch)
         { 
             execute = true; 
@@ -160,7 +165,7 @@ public class EventBlock : BaseBlock
 
     private void TickSystem_OnTick(object sender, TickSystem.OnTickEventArgs e)
     {
-        if (!execute || isPaused)
+        if (!execute || isPaused || isDisabled)
             return;
 
 
@@ -169,6 +174,8 @@ public class EventBlock : BaseBlock
 
     private void ProcessActions()
     {
+        if (isDisabled) return;
+
         if (actionQueue.Count <= 0)
         {
             if (isLooped)
@@ -218,7 +225,7 @@ public class EventBlock : BaseBlock
 
     private void LevelController_OnStopLevel(object sender, System.EventArgs e)
     {
-        gameObject.SetActive(true);
+        Enable();
 
         foreach(var action in staticActionQueue)
         {
@@ -308,6 +315,22 @@ public class EventBlock : BaseBlock
 
         boxCollider.isTrigger = !value;
     }
+
+    public void Disable()
+    {
+        boxCollider.enabled = false;
+        view.SetActive(false);
+        isDisabled = true;
+    }
+
+    public void Enable()
+    {
+        boxCollider.enabled = true;
+        view.SetActive(true);
+        isDisabled = false;
+    }
+
+
 }
 public enum EventTrigger
 {

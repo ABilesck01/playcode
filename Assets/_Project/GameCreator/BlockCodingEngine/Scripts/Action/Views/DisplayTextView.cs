@@ -15,6 +15,8 @@ public class DisplayTextView : MonoBehaviour
     public static event EventHandler OnTextShow;
     public static event EventHandler OnTextHide;
 
+    private bool isShowingText = false;
+
     private void Awake()
     {
         instance = this;
@@ -26,10 +28,14 @@ public class DisplayTextView : MonoBehaviour
     {
         display.text = string.Empty;
         view.SetActive(false);
+        isShowingText = false;
     }
 
     public void ShowText(string text, UnityAction onFinishDisplay = null)
     {
+        if (isShowingText) return;
+
+        isShowingText = true;
         display.text = text;
         view.SetActive(true);
         btnContinue.onClick.AddListener(onFinishDisplay);

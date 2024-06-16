@@ -50,6 +50,9 @@ MonoBehaviour:
   x: 0
   y: 0
   tiles: {fileID: 11400000, guid: cc2f690969756b146a738536ae7c2635, type: 2}
+  view: {fileID: 5011363852363733990}
+  isLooped: 0
+  isSolid: 0
 --- !u!61 &6556810806992815452
 BoxCollider2D:
   m_ObjectHideFlags: 0

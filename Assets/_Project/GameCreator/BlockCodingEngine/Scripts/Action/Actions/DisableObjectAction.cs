@@ -12,7 +12,7 @@ public class DisableObjectAction : BaseAction
 
     public override void Execute(EventBlock block)
     {
-        block.gameObject.SetActive(false);
+        block.Disable();
         block.StopExecution();
     }
 }
