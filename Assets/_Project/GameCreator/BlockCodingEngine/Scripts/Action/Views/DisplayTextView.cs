@@ -35,9 +35,12 @@ public class DisplayTextView : MonoBehaviour
     {
         if (isShowingText) return;
 
+        btnContinue.onClick.RemoveAllListeners();
+
         isShowingText = true;
         display.text = text;
         view.SetActive(true);
+        btnContinue.onClick.AddListener(CloseView);
         btnContinue.onClick.AddListener(onFinishDisplay);
         //OnTextShow?.Invoke(this, EventArgs.Empty);
     }
