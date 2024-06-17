@@ -27,3 +27,7 @@ MonoBehaviour:
     gfx: {fileID: 21300000, guid: 62b21cfc43009ba40ad7112beda3a354, type: 3}
   - name: Diamante
     gfx: {fileID: 21300000, guid: 8ea255f417715304e8567a9ce6486f80, type: 3}
+  - name: Dinossauro
+    gfx: {fileID: 1676577535, guid: 29a55da89642eb545a2a4f3dd50a6be1, type: 3}
+  - name: Ovo
+    gfx: {fileID: -778073391, guid: 5f435c5a54370b1458df01937ac52387, type: 3}

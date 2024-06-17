@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dcd9d94860b45a4a8f34b1a7ef15f40, type: 3}
+  m_Name: grass 12
+  m_EditorClassIdentifier: 
+  Id: 65fa97e0-1f63-4d22-ba1c-4abcaa07a7ef
+  preview: {fileID: -1870604067, guid: ee421e236900ab7428ab11530ec91bef, type: 3}
+  blockPrefab: {fileID: 5155457078422544244, guid: fa57ce17c8a4a0446ac1961d6b4e7553, type: 3}
