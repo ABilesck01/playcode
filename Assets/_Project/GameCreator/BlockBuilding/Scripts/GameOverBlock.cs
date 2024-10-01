@@ -6,13 +6,15 @@ using UnityEngine;
 
 public class GameOverBlock : BaseBlock
 {
+    [SerializeField] private bool hasWon;
+
     public static event EventHandler<bool> OnGameOver;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
-            OnGameOver?.Invoke(this, true);
+            OnGameOver?.Invoke(this, hasWon);
         }
     }
 

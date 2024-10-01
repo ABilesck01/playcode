@@ -10,6 +10,6 @@ public class EndGameAction : BaseAction
 
     public override void Execute(EventBlock block)
     {
-        LevelController.instance.StopScenario();
+        GameOverBlock.CallGameOver(false);
     }
 }

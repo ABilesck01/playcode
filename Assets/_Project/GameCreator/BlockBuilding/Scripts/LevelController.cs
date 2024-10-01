@@ -49,6 +49,21 @@ public class LevelController : MonoBehaviour
         btnPlay.onClick.AddListener(BtnPlay_Click);
     }
 
+    private void OnEnable()
+    {
+        GameOverBlock.OnGameOver += GameOverBlock_OnGameOver;
+    }
+
+    private void OnDisable()
+    {
+        GameOverBlock.OnGameOver -= GameOverBlock_OnGameOver;
+    }
+
+    private void GameOverBlock_OnGameOver(object sender, bool e)
+    {
+        StopScenario();
+    }
+
     private void BtnPlay_Click()
     {
         if(isOnTestPlay)
