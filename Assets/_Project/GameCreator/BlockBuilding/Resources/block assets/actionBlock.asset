@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dcd9d94860b45a4a8f34b1a7ef15f40, type: 3}
   m_Name: actionBlock
   m_EditorClassIdentifier: 
+  Id: 35064b85-1c94-4647-a95a-390c8402797e
   preview: {fileID: 21300000, guid: f1bdf192bcc85494999343e8838a078a, type: 3}
   blockPrefab: {fileID: -3490820861423731220, guid: b8fe1a6644b84b04eb81710813b30859, type: 3}

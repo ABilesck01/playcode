@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class BlockBuildingSystem : MonoBehaviour
 {

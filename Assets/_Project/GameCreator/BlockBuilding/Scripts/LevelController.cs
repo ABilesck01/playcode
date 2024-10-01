@@ -61,7 +61,7 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    private void PlayScenario()
+    protected void PlayScenario()
     {
         var spawn = FindObjectOfType<PlayerSpawnBlock>();
         if(spawn == null)

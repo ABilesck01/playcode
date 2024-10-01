@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using Newtonsoft;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 public class LevelDataController : MonoBehaviour
 {
@@ -14,57 +16,72 @@ public class LevelDataController : MonoBehaviour
     public LevelData data;
     public BlockAssetList blockAssetList;
 
+    public static event EventHandler OnLoadLevel;
+
     // Start is called before the first frame update
     void Start()
     {
-        data = new LevelData();
-        saveButton.onClick.AddListener(SaveData);
-        loadButton.onClick.AddListener(LoadData);
+        Debug.Log($"Editing level {PersistentGameData.level.nome}");
+        LoadData();
     }
 
-    private void SaveData()
+    public void SaveData()
     {
-        string folderPath = $"{System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments)}/PlayCode";
+        SaveLevelDto saveLevelDto = new SaveLevelDto();
+        saveLevelDto.userLevelId = PersistentGameData.level.id;
+        saveLevelDto.blocos = data.blocos;
+        saveLevelDto.variaveis = new Variavel[0];
+        ApiController.instance.SendRequest<string>(RequestType.POST, "UserLevel/save-level", OnSaveUserLevel, OnError, saveLevelDto);
+    }
 
-        // Check if the directory exists, if not, create it
-        if (!System.IO.Directory.Exists(folderPath))
-        {
-            System.IO.Directory.CreateDirectory(folderPath);
-        }
-
-        string json = JsonConvert.SerializeObject(data);
-
-        System.IO.File.WriteAllText(folderPath + $"/{txtLevelName.text}.json", json);
+    private void OnSaveUserLevel(string t)
+    {
+        Debug.Log("Saved Data");
     }
 
     private void LoadData()
     {
-        string folderPath = $"{System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments)}/PlayCode";
-        string filePath = $"{folderPath}/{txtLevelName.text}.json";
+        if (PersistentGameData.level.id == 0)
+            return;
 
-        // Check if the file exists before trying to load it
-        if (System.IO.File.Exists(filePath))
+        ApiController.instance.SendRequest<GetLevelDto>(RequestType.GET, $"UserLevel/{PersistentGameData.level.id}", OnLoadData, OnError);
+    }
+
+    private void OnLoadData(GetLevelDto data)
+    {
+        Debug.Log(data);
+        this.data = new LevelData
         {
-            string json = System.IO.File.ReadAllText(filePath);
-            data = JsonConvert.DeserializeObject<LevelData>(json);
+            id = data.id,
+            nome = data.nome,
+            usuarioNome = data.usuarioNome,
+            blocos = data.blocos.ToList()
+        };
+        foreach (var item in data.blocos)
+        {
+            BlockAsset blockAsset = blockAssetList.GetBlock(item.id_Interno);
 
-            VariableController.instance.SetVariables(data.variables);
-
-            foreach (var item in data.blocks)
+            if (blockAsset == null)
             {
-                var block = BlockBuildingSystem.instance.SystemPlaceBlock(blockAssetList.GetBlock(item.assetId), item.x, item.y);
-                if(block is EventBlock && !string.IsNullOrEmpty(item.customData))
-                {
-                    var eventJson = item.customData.ToString();
-                    ((EventBlock)block).DeserializeFromJson(eventJson);
-                }
+                Debug.LogError($"No block with id {item.id_Interno} was found");
+                continue;
+            }
+            var block = BlockBuildingSystem.instance.SystemPlaceBlock(blockAsset, item.x, item.y);
+            if (block is EventBlock && !string.IsNullOrEmpty(item.customData))
+            {
+
+                var eventJson = item.customData;
+                Debug.Log(eventJson);
+                ((EventBlock)block).DeserializeFromJson(eventJson);
             }
         }
-        else
-        {
-            // Handle the case where the file doesn't exist
-            Debug.LogWarning("File does not exist.");
-        }
+
+        OnLoadLevel?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void OnError(string obj)
+    {
+        Debug.LogError(obj);
     }
 
     private void OnEnable()
@@ -93,7 +110,7 @@ public class LevelDataController : MonoBehaviour
             variableNames.Add(item.key);
         }
 
-        data.variables = variableNames;
+        //data.variables = variableNames;
     }
 
     private void BlockBuildingSystem_OnEraseBlock(object sender, BlockBuildingSystem.BlockEventArgs e)
@@ -108,12 +125,21 @@ public class LevelDataController : MonoBehaviour
 
     private void EventBlock_OnActionAdded(object sender, EventBlock e)
     {
-        foreach (var item in data.blocks)
+        foreach (var item in data.blocos)
         {
-            if(item.x == e.x && item.y == e.y && item.assetId == e.blockSO.Id) 
+            if(item.x == e.x && item.y == e.y && item.id_Interno == e.blockSO.ID) 
             {
                 item.customData = e.GetData();
             }
         }
     }
+}
+
+[System.Serializable]
+public class GetLevelDto
+{
+    public int id;
+    public string nome;
+    public string usuarioNome;
+    public List<Bloco> blocos;
 }

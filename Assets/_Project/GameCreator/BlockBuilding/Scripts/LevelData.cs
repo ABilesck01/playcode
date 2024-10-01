@@ -5,53 +5,54 @@ using UnityEngine;
 [System.Serializable]
 public class LevelData
 {
-    public List<BaseBlockData> blocks;
-    public List<string> variables;
+    public int id;
+    public string nome;
+    public string usuarioNome;
+    public List<Bloco> blocos;
+    //public List<string> variables;
 
     public LevelData() 
     {
-        blocks = new List<BaseBlockData>();
-        variables = new List<string>();
+        blocos = new List<Bloco>();
+        //variables = new List<string>();
     }
 
     public void AddBlock(BaseBlock block)
     {
-        BaseBlockData data = new BaseBlockData();
-        data.assetId = block.blockSO.Id;
+        Bloco data = new Bloco();
+        data.id_Interno = block.blockSO.ID;
         data.x = block.x;
         data.y = block.y;
 
-        if (block is EventBlock)
-        {
-            data.customData = ((EventBlock)block).GetData();
-        }
+        //if (block is EventBlock)
+        //{
+        //    data.customData = ((EventBlock)block).GetData();
+        //}
 
-        blocks.Add(data);
+        blocos.Add(data);
     }
 
     public void RemoveBlock(BaseBlock block)
     {
-        BaseBlockData data = new BaseBlockData();
-        data.assetId = block.blockSO.Id;
+        Bloco data = new Bloco();
+        data.id_Interno = block.blockSO.ID;
         data.x = block.x;
         data.y = block.y;
 
-        blocks.Remove(data);
+        blocos.Remove(data);
     }
 }
 
 [System.Serializable]
-public class BaseBlockData
+public class Bloco
 {
-    public string assetId;
+    public int id;
+    public string id_Interno;
+    public int sprite_Index;
     public int x;
     public int y;
     public string customData;
 
-    public BaseBlockData()
-    {
-        customData = "";
-    }
 }
 [System.Serializable]
 public class EventBlockData
@@ -127,4 +128,17 @@ public class ActionData
             parameters.Add("display", showTextAction.Display);
         }
     }
+}
+
+public class SaveLevelDto
+{
+    public int userLevelId;
+    public List<Bloco> blocos;
+    public Variavel[] variaveis;
+}
+
+[System.Serializable]
+public class Variavel
+{
+    public string nome;
 }

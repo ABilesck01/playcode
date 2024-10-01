@@ -1,16 +1,17 @@
 using UnityEngine;
 using System;
+using UnityEditor;
+using Unity.Collections;
 
 [CreateAssetMenu(menuName = "Blocks/New Block")]
 public class BlockAsset : ScriptableObject
 {
-    public string Id;
+    [ReadOnly] public string ID;
     public Sprite preview;
     public BaseBlock blockPrefab;
 
-    void OnEnable()
+    public void GenerateID(string prefix, int index)
     {
-        if (string.IsNullOrEmpty(Id))
-            Id = Guid.NewGuid().ToString();
+        ID = $"{prefix}_{index}";
     }
 }

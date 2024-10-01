@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dcd9d94860b45a4a8f34b1a7ef15f40, type: 3}
   m_Name: spawn
   m_EditorClassIdentifier: 
+  Id: e387c73a-a6a5-4e83-9824-00336331ee73
   preview: {fileID: 872401384, guid: 4824eef1dc703d74e8349b3a8ab92e16, type: 3}
   blockPrefab: {fileID: 3719035996484181083, guid: 7c172a4c0ac309645bf369492ef82afb, type: 3}
