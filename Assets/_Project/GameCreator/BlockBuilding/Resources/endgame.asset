@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8dcd9d94860b45a4a8f34b1a7ef15f40, type: 3}
-  m_Name: spawn
+  m_Name: endgame
   m_EditorClassIdentifier: 
-  ID: item_2
-  preview: {fileID: 21300000, guid: f51956d4379ac7045a734837f51f1eb7, type: 3}
-  blockPrefab: {fileID: 3719035996484181083, guid: 7c172a4c0ac309645bf369492ef82afb, type: 3}
+  ID: item_25
+  preview: {fileID: 21300000, guid: 643112e48708fd64e9bebddfababdac2, type: 3}
+  blockPrefab: {fileID: 8857167142125170415, guid: 753d5ec504d45094c99de2c5f229dfc2, type: 3}

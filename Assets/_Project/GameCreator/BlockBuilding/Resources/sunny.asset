@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1eda367c310a714794d5bcee53cd9b1, type: 3}
   m_Name: sunny
   m_EditorClassIdentifier: 
+  idPrefix: item
   blockAssets:
   - {fileID: 11400000, guid: 699ddb3404e619146a512285dff7ea73, type: 2}
   - {fileID: 11400000, guid: 0c4fdb6e0b9d1e34eaf26bc6e7db8a63, type: 2}
@@ -37,3 +38,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c798796b047354445933fd3c73fcf38f, type: 2}
   - {fileID: 11400000, guid: 0ed5d8b8790564e44a66ec3e3ec712dc, type: 2}
   - {fileID: 11400000, guid: 12379c0cba882c74eb369dbc25579eb0, type: 2}
+  - {fileID: 11400000, guid: 1001da5876da96a43ac81d37b6f173b9, type: 2}

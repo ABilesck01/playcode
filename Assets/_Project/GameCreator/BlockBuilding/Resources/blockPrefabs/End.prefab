@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4010381656644986851}
-  - component: {fileID: 3719035996484181083}
+  - component: {fileID: 8857167142125170415}
   m_Layer: 0
-  m_Name: Spawn
+  m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   - {fileID: 4768205378939482033}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3719035996484181083
+--- !u!114 &8857167142125170415
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,13 +43,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2630020253619578815}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25628b6cbf8730e4ea74c4d13e877f66, type: 3}
+  m_Script: {fileID: 11500000, guid: 3502d7b90b90b2c45970c946a91f9715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockSO: {fileID: 0}
-  x: 0
-  y: 0
-  spawnPoint: {fileID: 4768205378939482033}
 --- !u!1 &6854350416219636060
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,7 +119,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f51956d4379ac7045a734837f51f1eb7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 643112e48708fd64e9bebddfababdac2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
