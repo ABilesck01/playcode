@@ -21,6 +21,8 @@ public class LevelDataController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (PersistentGameData.level == null)
+            return;
         Debug.Log($"Editing level {PersistentGameData.level.nome}");
         LoadData();
     }
@@ -31,12 +33,12 @@ public class LevelDataController : MonoBehaviour
         saveLevelDto.userLevelId = PersistentGameData.level.id;
         saveLevelDto.blocos = data.blocos;
         saveLevelDto.variaveis = new Variavel[0];
-        ApiController.instance.SendRequest<string>(RequestType.POST, "UserLevel/save-level", OnSaveUserLevel, OnError, saveLevelDto);
+        ApiController.instance.SendRequest<Message>(RequestType.POST, "UserLevel/save-level", OnSaveUserLevel, OnError, saveLevelDto);
     }
 
-    private void OnSaveUserLevel(string t)
+    private void OnSaveUserLevel(Message t)
     {
-        Debug.Log("Saved Data");
+        Debug.Log($"Saved Data {t.message}");
     }
 
     private void LoadData()
@@ -142,4 +144,9 @@ public class GetLevelDto
     public string nome;
     public string usuarioNome;
     public List<Bloco> blocos;
+}
+
+public class Message
+{
+    public string message = "";
 }

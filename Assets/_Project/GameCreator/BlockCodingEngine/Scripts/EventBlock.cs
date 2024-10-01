@@ -102,6 +102,9 @@ public class EventBlock : BaseBlock
                     Display = data.parameters["display"].ToString()
                 };
                 break;
+            case "DisableObjectAction":
+                action = new DisableObjectAction();
+                break;
         }
         return action;
     }

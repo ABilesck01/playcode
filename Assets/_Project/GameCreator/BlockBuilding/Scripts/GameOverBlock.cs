@@ -10,9 +10,10 @@ public class GameOverBlock : BaseBlock
 
     public static event EventHandler<bool> OnGameOver;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(other.CompareTag("Player"))
+        Debug.Log("OnTriggerEnter", this);
+        if (collision.CompareTag("Player"))
         {
             OnGameOver?.Invoke(this, hasWon);
         }
