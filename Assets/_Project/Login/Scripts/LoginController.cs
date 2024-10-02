@@ -1,4 +1,4 @@
-using System;
+        using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -32,11 +32,13 @@ public class LoginController : MonoBehaviour
 
     private void CreateAcount()
     {
+        btnSendLogin.interactable = false;
         ApiController.instance.SendRequest<LoginResponse>(RequestType.POST, "Usuario/Login", OnSuccess, OnError, new LoginDto {email = txtEmail.text, senha = txtPassword.text });
     }
 
     private void OnError(string obj)
     {
+        btnSendLogin.interactable = true;
         Debug.Log(obj);
         MessageBoxController.instance.ShowMessage("Erro", obj);
     }

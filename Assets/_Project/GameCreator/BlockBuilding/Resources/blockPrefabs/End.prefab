@@ -50,7 +50,7 @@ MonoBehaviour:
   blockSO: {fileID: 0}
   x: 0
   y: 0
-  hasWon: 0
+  hasWon: 1
 --- !u!61 &2667559878652557731
 BoxCollider2D:
   m_ObjectHideFlags: 0
