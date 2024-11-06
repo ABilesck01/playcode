@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Fredoka-SemiBold SDF_green
+  m_Name: Fredoka-SemiBold SDF_blue
   m_EditorClassIdentifier: 
-  hashCode: 1877235999
+  hashCode: -853996358
   material: {fileID: 7376642389399366446}
-  materialHashCode: -18874785
+  materialHashCode: 1423385178
   m_Version: 1.1.0
   m_SourceFontFileGUID: 47e15a3b2b5ef1740b290f2dd13302d3
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 47e15a3b2b5ef1740b290f2dd13302d3, type: 3}
@@ -5608,7 +5608,7 @@ Material:
     - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _GlowColor: {r: 0, g: 1, b: 0, a: 0.5}
     - _MaskCoord: {r: 0, g: 0, b: 32767, a: 32767}
-    - _OutlineColor: {r: 0.14509805, g: 0.49019608, b: 0.17254902, a: 1}
+    - _OutlineColor: {r: 0, g: 0.39607844, b: 0.6784314, a: 1}
     - _ReflectFaceColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
