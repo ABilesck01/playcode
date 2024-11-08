@@ -48,15 +48,14 @@ public class PlayerCanvas : MonoBehaviour
         {
             AvaliacaoDto avaliacaoDto = new AvaliacaoDto
             {
-                UsuarioID = PersistentGameData.usuario.ID,
-                UserLevelID = PersistentGameData.level.id,
-                Like = false
+                UsuarioId = PersistentGameData.usuario.ID,
+                gostei = false
             };
 
             btnLike.interactable = false;
             btnDislike.interactable = false;
 
-            ApiController.instance.SendRequest<Message>(RequestType.POST, "UserLevel/avaliar", OnDeslikeSuccess, OnError, avaliacaoDto);
+            ApiController.instance.SendRequest<Message>(RequestType.POST, $"UserLevel/{PersistentGameData.level.id}/avaliar", OnDeslikeSuccess, OnError, avaliacaoDto);
         }
 
         private void OnError(string obj)
@@ -73,15 +72,14 @@ public class PlayerCanvas : MonoBehaviour
         {
             AvaliacaoDto avaliacaoDto = new AvaliacaoDto
             {
-                UsuarioID = PersistentGameData.usuario.ID,
-                UserLevelID = PersistentGameData.level.id,
-                Like = true
+                UsuarioId = PersistentGameData.usuario.ID,
+                gostei = true
             };
 
             btnLike.interactable = false;
             btnDislike.interactable = false;
 
-            ApiController.instance.SendRequest<Message>(RequestType.POST, "UserLevel/avaliar", OnDeslikeSuccess, OnError, avaliacaoDto);
+            ApiController.instance.SendRequest<Message>(RequestType.POST, $"UserLevel/{PersistentGameData.level.id}/avaliar", OnDeslikeSuccess, OnError, avaliacaoDto);
         }
     }
 
@@ -138,7 +136,6 @@ public class BaseView
 }
 public class AvaliacaoDto
 {
-    public int UserLevelID;
-    public int UsuarioID;
-    public bool Like;
+    public int UsuarioId;
+    public bool gostei;
 }
