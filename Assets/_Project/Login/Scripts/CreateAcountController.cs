@@ -67,7 +67,7 @@ public class CreateAcountController : MonoBehaviour
             dataNascimento = DateTime.Parse(txtBirthDate.text) 
         };
 
-        ApiController.instance.SendRequest<CreateUserDTO>(RequestType.POST,"Usuario/Create", OnSuccess, OnError, createUser);
+        ApiController.instance.SendRequest<string>(RequestType.POST,"Usuario/Create", OnSuccess, OnError, createUser);
     }
 
     private void OnError(string obj)
@@ -77,7 +77,7 @@ public class CreateAcountController : MonoBehaviour
 
     }
 
-    private void OnSuccess(CreateUserDTO dto)
+    private void OnSuccess(string dto)
     {
         Debug.Log(dto);
         MessageBoxController.instance.ShowMessage("", "Sua conta foi criada!", () =>

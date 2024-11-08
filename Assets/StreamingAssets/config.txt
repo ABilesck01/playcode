@@ -1,0 +1,1 @@
+ApiUrl=https://localhost:7276/api/

@@ -18,10 +18,6 @@ public class CreateProjectController : MonoBehaviour
 
     private void Awake()
     {
-        btnCreateProject.interactable = false;
-        txtProjectName.interactable = false;
-
-        btnNewProject.onClick.AddListener(BtnNewProjectClick);
         btnCreateProject.onClick.AddListener(BtnCreateProjectClick);
     }
 
@@ -44,12 +40,6 @@ public class CreateProjectController : MonoBehaviour
         }
     }
 
-    public void BtnNewProjectClick()
-    {
-        btnCreateProject.interactable = true;
-        txtProjectName.interactable = true;
-    }
-
     public void BtnCreateProjectClick()
     {
         btnCreateProject.interactable = false;
@@ -61,7 +51,7 @@ public class CreateProjectController : MonoBehaviour
             nome = txtProjectName.text
         };
 
-        ApiController.instance.SendRequest<LevelDTO>(RequestType.POST, "UserLevel", OnSuccess, OnError, novoLevelDTO);
+        ApiController.instance.SendRequest<LevelDTO>(RequestType.POST, "UserLevel/create", OnSuccess, OnError, novoLevelDTO);
     }
 
     private void OnError(string obj)

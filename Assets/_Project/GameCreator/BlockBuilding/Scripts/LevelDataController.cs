@@ -33,12 +33,12 @@ public class LevelDataController : MonoBehaviour
         saveLevelDto.userLevelId = PersistentGameData.level.id;
         saveLevelDto.blocos = data.blocos;
         saveLevelDto.variaveis = new Variavel[0];
-        ApiController.instance.SendRequest<Message>(RequestType.POST, "UserLevel/save-level", OnSaveUserLevel, OnError, saveLevelDto);
+        ApiController.instance.SendRequest<string>(RequestType.POST, "UserLevel/save-level", OnSaveUserLevel, OnError, saveLevelDto);
     }
 
-    private void OnSaveUserLevel(Message t)
+    private void OnSaveUserLevel(string t)
     {
-        Debug.Log($"Saved Data {t.message}");
+        Debug.Log($"Saved Data {t}");
     }
 
     private void LoadData()

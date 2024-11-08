@@ -33,7 +33,7 @@ public class LoginController : MonoBehaviour
     private void CreateAcount()
     {
         btnSendLogin.interactable = false;
-        ApiController.instance.SendRequest<LoginResponse>(RequestType.POST, "Usuario/Login", OnSuccess, OnError, new LoginDto {email = txtEmail.text, senha = txtPassword.text });
+        ApiController.instance.SendRequest<LoginResponse>(RequestType.POST, "Usuario/login", OnSuccess, OnError, new LoginDto {email = txtEmail.text, senha = txtPassword.text });
     }
 
     private void OnError(string obj)

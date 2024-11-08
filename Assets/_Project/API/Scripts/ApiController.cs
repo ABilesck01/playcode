@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -20,6 +21,11 @@ public class ApiController : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        LoadApiUrl();
     }
 
     public void SendRequest<T>(RequestType type, string endPoint, Action<T> onSuccess, Action<string> onError, object body = null)
@@ -65,8 +71,10 @@ public class ApiController : MonoBehaviour
 
         try
         {
-            T response = JsonConvert.DeserializeObject<T>(request.downloadHandler.text);
-            onSuccess?.Invoke(response);
+            T response = typeof(T) == typeof(string)
+            ? (T)(object)request.downloadHandler.text
+            : JsonConvert.DeserializeObject<T>(request.downloadHandler.text);
+                onSuccess?.Invoke(response);
         }
         catch (Exception e)
         {
@@ -110,14 +118,27 @@ public class ApiController : MonoBehaviour
         }
     }
 
-    internal void SendRequest<T>(string v, object onSuccess, object onError)
+    private void LoadApiUrl()
     {
-        throw new NotImplementedException();
-    }
+        // Caminho do arquivo de configuração
+        string path = Path.Combine(Application.streamingAssetsPath, "config.txt");
 
-    internal void SendRequest<T>(string v, object onSuccess, Action<T> onError)
-    {
-        throw new NotImplementedException();
+        if (File.Exists(path))
+        {
+            string[] lines = File.ReadAllLines(path);
+            foreach (string line in lines)
+            {
+                if (line.StartsWith("ApiUrl="))
+                {
+                    api = line.Substring("ApiUrl=".Length);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Arquivo de configuração não encontrado!");
+        }
     }
 }
 
