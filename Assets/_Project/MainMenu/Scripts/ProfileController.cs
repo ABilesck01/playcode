@@ -80,7 +80,7 @@ public class ProfileController : MonoBehaviour
 
     private void Save()
     {
-        ApiController.instance.SendRequest<int>(RequestType.POST, $"{PersistentGameData.usuario.ID}/set-avatar",
+        ApiController.instance.SendRequest<int>(RequestType.POST, $"Usuario/{PersistentGameData.usuario.ID}/set-avatar",
             success =>
             {
                 btnBack.onClick.Invoke();
@@ -102,7 +102,7 @@ public class ProfileController : MonoBehaviour
         desbloquearAvatarDTO.AvatarId = index;
         desbloquearAvatarDTO.Moedas = 50;
         PersistentGameData.usuario.Avatares.Add(index);
-        ApiController.instance.SendRequest<string>(RequestType.POST, $"{PersistentGameData.usuario.ID}/set-avatar",
+        ApiController.instance.SendRequest<string>(RequestType.POST, $"Usuario/{PersistentGameData.usuario.ID}/desbloquear-avatar",
             success =>
             {
                 PersistentGameData.usuario.Moedas -= 50;
