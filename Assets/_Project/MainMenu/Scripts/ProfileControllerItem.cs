@@ -46,6 +46,11 @@ public class ProfileControllerItem : MonoBehaviour
 
     private void UnlockPlayer()
     {
-
+        MessageBoxController.instance.ShowSellMessage("Comprar", "Você deseja comprar este dinossauro?", icon.sprite, "50",
+            () =>
+            {
+                profileController.UnlockPlayer(index);
+            },
+            null, "Sim", "Não");
     }
 }

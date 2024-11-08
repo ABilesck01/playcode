@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,6 +11,8 @@ public class ProfileController : MonoBehaviour
     [SerializeField] private UnityEngine.UI.Image[] currentPlayerIcon;
     [SerializeField] private TextMeshProUGUI txtUserName;
     [SerializeField] private TextMeshProUGUI txtEmail;
+    [SerializeField] private TextMeshProUGUI txtTrofeus;
+    [SerializeField] private TextMeshProUGUI txtMoedas;
     [Space]
     [SerializeField] private Button btnLogout;
     [SerializeField] private Button btnCancel;
@@ -34,6 +37,8 @@ public class ProfileController : MonoBehaviour
         UpdateGrid();
         txtUserName.text = PersistentGameData.usuario.Nome;
         txtEmail.text = PersistentGameData.usuario.Email;
+        txtTrofeus.text = PersistentGameData.usuario.Trofeus.ToString();
+        txtMoedas.text = PersistentGameData.usuario.Moedas.ToString();
     }
 
     private void UpdateGrid()
@@ -91,4 +96,29 @@ public class ProfileController : MonoBehaviour
         btnBack.onClick.Invoke(); 
     }
 
+    public void UnlockPlayer(int index)
+    {
+        DesbloquearAvatarDTO desbloquearAvatarDTO = new DesbloquearAvatarDTO();
+        desbloquearAvatarDTO.AvatarId = index;
+        desbloquearAvatarDTO.Moedas = 50;
+        PersistentGameData.usuario.Avatares.Add(index);
+        ApiController.instance.SendRequest<string>(RequestType.POST, $"{PersistentGameData.usuario.ID}/set-avatar",
+            success =>
+            {
+                PersistentGameData.usuario.Moedas -= 50;
+                txtMoedas.text = PersistentGameData.usuario.Moedas.ToString();
+                UpdateGrid();
+            },
+            error =>
+            {
+                MessageBoxController.instance.ShowMessage("Erro", error);
+            },
+            desbloquearAvatarDTO);
+    }
+}
+
+public class DesbloquearAvatarDTO
+{
+    public int AvatarId { get; set; }
+    public int Moedas { get; set; }
 }

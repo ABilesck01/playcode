@@ -72,6 +72,8 @@ public class Usuario
     public string Senha;
     public int Avatar;
     public List<int> Avatares;
+    public int Trofeus;
+    public int Moedas;
     public DateTime DataNascimento;
 
     public override string ToString()
