@@ -12,6 +12,11 @@ public class MessageBoxController : MonoBehaviour
     public TextMeshProUGUI messageText; // Texto que exibirá a mensagem
     public Button okButton; // Botão de OK
     public Button cancelButton; // Botão de Cancelar (opcional)
+    public GameObject sellInfo;
+    public UnityEngine.UI.Image sellIcon;
+    public TextMeshProUGUI txtPrice;
+    public TextMeshProUGUI txtOkButton; // Texto que exibirá a mensagem
+    public TextMeshProUGUI txtCancelButton; // Texto que exibirá a mensagem
 
     private UnityAction okAction; // Ação a ser executada ao clicar em OK
     private UnityAction cancelAction; // Ação a ser executada ao clicar em Cancelar (opcional)
@@ -30,8 +35,10 @@ public class MessageBoxController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void ShowMessage(string title, string message, UnityAction okAction = null, UnityAction cancelAction = null)
+    public void ShowMessage(string title, string message, UnityAction okAction = null, UnityAction cancelAction = null, string okText = "Ok", string cancelText = "Cancelar")
     {
+        sellInfo.SetActive(false);
+
         messageBoxPanel.SetActive(true); // Ativa o painel
         titleText.text = title; // Define a mensagem
         messageText.text = message; // Define a mensagem
@@ -54,6 +61,21 @@ public class MessageBoxController : MonoBehaviour
             cancelButton.onClick.AddListener(OnCancelButtonClick);
             cancelButton.gameObject.SetActive(true);
         }
+
+        txtOkButton.text = okText;
+        txtCancelButton.text = cancelText;
+    }
+
+    public void ShowSellMessage(string title, string message, Sprite icon, string value, UnityAction okAction = null, UnityAction cancelAction = null, string okText = "Ok", string cancelText = "Cancelar")
+    {
+        ShowMessage(title, message, okAction, cancelAction, okText, cancelText);
+
+        sellInfo.SetActive(true);
+
+        sellIcon.sprite = icon;
+        txtPrice.text = value;
+
+        
     }
 
     // Método chamado ao clicar no botão OK
@@ -73,6 +95,7 @@ public class MessageBoxController : MonoBehaviour
     // Método para fechar a MessageBox
     public void CloseMessageBox()
     {
+        sellInfo.SetActive(false);
         messageBoxPanel.SetActive(false); // Desativa o painel
     }
 }
