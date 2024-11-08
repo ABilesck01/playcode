@@ -76,7 +76,7 @@ public class ApiController : MonoBehaviour
             : JsonConvert.DeserializeObject<T>(request.downloadHandler.text);
                 onSuccess?.Invoke(response);
         }
-        catch (Exception e)
+        catch (JsonSerializationException e)
         {
             onError?.Invoke($"Erro ao deserializar resposta: {e.Message}");
         }

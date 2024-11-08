@@ -4989,6 +4989,8 @@ MonoBehaviour:
   - {fileID: 29161837}
   txtUserName: {fileID: 499529636}
   txtEmail: {fileID: 1263317437}
+  txtTrofeus: {fileID: 569210633}
+  txtMoedas: {fileID: 1428851009}
   btnLogout: {fileID: 1869754452}
   btnCancel: {fileID: 462986804}
   btnSave: {fileID: 718787278}
