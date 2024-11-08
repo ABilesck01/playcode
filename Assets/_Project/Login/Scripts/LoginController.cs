@@ -71,6 +71,7 @@ public class Usuario
     public string Email;
     public string Senha;
     public int Avatar;
+    public List<int> Avatares;
     public DateTime DataNascimento;
 
     public override string ToString()
