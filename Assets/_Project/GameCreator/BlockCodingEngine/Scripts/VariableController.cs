@@ -82,4 +82,18 @@ public class VariableController : MonoBehaviour
             dict.Add(new dictStruct { key = name, value = 0 });
         }
     }
+
+    public List<Variavel> GetAllVariables()
+    {
+        List<Variavel> list = new List<Variavel>();
+
+        foreach (var name in variables.Keys)
+        {
+            list.Add(new Variavel{
+                nome = name,
+            });
+        }
+
+        return list;
+    }
 }

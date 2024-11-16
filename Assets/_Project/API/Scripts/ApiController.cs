@@ -30,8 +30,9 @@ public class ApiController : MonoBehaviour
 
     public void SendRequest<T>(RequestType type, string endPoint, Action<T> onSuccess, Action<string> onError, object body = null)
     {
-        Debug.Log($"Request sent to {api}{endPoint}");
         string jsonData = JsonUtility.ToJson(body);
+
+        Debug.Log($"Request sent to {api}{endPoint} with body\n {jsonData}");
         StartCoroutine(SendRequestCoroutine<T>(type, endPoint, onSuccess, onError, jsonData));
     }
 

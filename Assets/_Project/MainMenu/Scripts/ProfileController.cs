@@ -80,7 +80,7 @@ public class ProfileController : MonoBehaviour
 
     private void Save()
     {
-        ApiController.instance.SendRequest<int>(RequestType.POST, $"Usuario/{PersistentGameData.usuario.ID}/set-avatar",
+        ApiController.instance.SendRequest<string>(RequestType.POST, $"Usuario/{PersistentGameData.usuario.ID}/set-avatar",
             success =>
             {
                 btnBack.onClick.Invoke();
@@ -88,6 +88,10 @@ public class ProfileController : MonoBehaviour
             error =>
             {
                 MessageBoxController.instance.ShowMessage("Erro", error);
+            },
+            new SetAvatarDto
+            {
+                avatar = PersistentGameData.usuario.Avatar
             });
     }
 
@@ -101,10 +105,11 @@ public class ProfileController : MonoBehaviour
         DesbloquearAvatarDTO desbloquearAvatarDTO = new DesbloquearAvatarDTO();
         desbloquearAvatarDTO.AvatarId = index;
         desbloquearAvatarDTO.Moedas = 50;
-        PersistentGameData.usuario.Avatares.Add(index);
+        
         ApiController.instance.SendRequest<string>(RequestType.POST, $"Usuario/{PersistentGameData.usuario.ID}/desbloquear-avatar",
             success =>
             {
+                PersistentGameData.usuario.Avatares.Add(index);
                 PersistentGameData.usuario.Moedas -= 50;
                 txtMoedas.text = PersistentGameData.usuario.Moedas.ToString();
                 UpdateGrid();
@@ -119,6 +124,11 @@ public class ProfileController : MonoBehaviour
 
 public class DesbloquearAvatarDTO
 {
-    public int AvatarId { get; set; }
-    public int Moedas { get; set; }
+    public int AvatarId;
+    public int Moedas;
+}
+
+public class SetAvatarDto
+{
+    public int avatar;
 }

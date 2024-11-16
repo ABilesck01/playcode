@@ -32,7 +32,7 @@ public class LevelDataController : MonoBehaviour
         SaveLevelDto saveLevelDto = new SaveLevelDto();
         saveLevelDto.userLevelId = PersistentGameData.level.id;
         saveLevelDto.blocos = data.blocos;
-        saveLevelDto.variaveis = new Variavel[0];
+        saveLevelDto.variaveis = VariableController.instance.GetAllVariables().ToArray();
         ApiController.instance.SendRequest<string>(RequestType.POST, "UserLevel/save-level", OnSaveUserLevel, OnError, saveLevelDto);
     }
 

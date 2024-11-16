@@ -9,12 +9,12 @@ public class LevelData
     public string nome;
     public string usuarioNome;
     public List<Bloco> blocos;
-    //public List<string> variables;
+    public List<string> variables;
 
     public LevelData() 
     {
         blocos = new List<Bloco>();
-        //variables = new List<string>();
+        variables = new List<string>();
     }
 
     public void AddBlock(BaseBlock block)
@@ -24,22 +24,19 @@ public class LevelData
         data.x = block.x;
         data.y = block.y;
 
-        //if (block is EventBlock)
-        //{
-        //    data.customData = ((EventBlock)block).GetData();
-        //}
+        if (block is EventBlock)
+        {
+            data.customData = ((EventBlock)block).GetData();
+        }
 
         blocos.Add(data);
     }
 
     public void RemoveBlock(BaseBlock block)
     {
-        Bloco data = new Bloco();
-        data.id_Interno = block.blockSO.ID;
-        data.x = block.x;
-        data.y = block.y;
+        var blocoToRemove = blocos.Find(bl => bl.x == block.x && bl.y == block.y);
 
-        blocos.Remove(data);
+        blocos.Remove(blocoToRemove);
     }
 }
 
