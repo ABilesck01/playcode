@@ -39,7 +39,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 45}
+  m_SizeDelta: {x: 600, y: 9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3164669784795041749
 CanvasRenderer:
@@ -69,8 +69,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 17ca32b887c6425409a3e48de06b4129, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -140,6 +140,7 @@ MonoBehaviour:
     tutorialText: 
   view: {fileID: 0}
   eventBlock: {fileID: 0}
+  eventBlockView: {fileID: 0}
   btnRemove: {fileID: 2319603688923944137}
 --- !u!1 &528053367711543127
 GameObject:
@@ -208,8 +209,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Destruir objeto
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 72a67cdef31e3ac4d8c6a259416ff9fe, type: 2}
+  m_sharedMaterial: {fileID: 6434346808779291149, guid: 72a67cdef31e3ac4d8c6a259416ff9fe, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -308,14 +309,6 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 172259710445171734, guid: be7407936a130b84f9a6c27374d0513d, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 172259710445171734, guid: be7407936a130b84f9a6c27374d0513d, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 172259710445171734, guid: be7407936a130b84f9a6c27374d0513d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -345,7 +338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 172259710445171734, guid: be7407936a130b84f9a6c27374d0513d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -25
+      value: -42.6
       objectReference: {fileID: 0}
     - target: {fileID: 172259710445171734, guid: be7407936a130b84f9a6c27374d0513d, type: 3}
       propertyPath: m_AnchoredPosition.y
