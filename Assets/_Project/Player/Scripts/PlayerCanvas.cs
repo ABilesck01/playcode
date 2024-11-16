@@ -65,6 +65,7 @@ public class PlayerCanvas : MonoBehaviour
 
         private void OnDeslikeSuccess(Message message)
         {
+            btnQuit.onClick.Invoke();
             Debug.Log(message.message);
         }
 

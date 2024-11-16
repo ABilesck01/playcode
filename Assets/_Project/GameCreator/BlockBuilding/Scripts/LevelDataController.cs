@@ -78,6 +78,8 @@ public class LevelDataController : MonoBehaviour
             }
         }
 
+
+
         OnLoadLevel?.Invoke(this, EventArgs.Empty);
     }
 

@@ -89,4 +89,5 @@ public class GetLevelDTO
     [SerializeField] public string nome;
     [SerializeField] public int usuarioID;
     [SerializeField] public string usuarioNome;
+    [SerializeField] public int trofeus;
 }

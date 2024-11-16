@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ExploreGamesController : MonoBehaviour
@@ -21,13 +22,15 @@ public class ExploreGamesController : MonoBehaviour
 
     private void OnSuccess(List<GetLevelDTO> list)
     {
-        foreach (var levelData in list)
+        var orderedList = list.OrderByDescending(levelData => levelData.trofeus).ToList();
+
+        foreach (var levelData in orderedList)
         {
             if (levelData.usuarioID == PersistentGameData.usuario.ID)
                 continue;
 
             var item = Instantiate(projectPrefab, container);
-            item.Setup(levelData.nome, levelData.usuarioNome, levelData.id);
+            item.Setup(levelData.nome, $"{levelData.usuarioNome} | {levelData.trofeus}", levelData.id);
         }
     }
 
