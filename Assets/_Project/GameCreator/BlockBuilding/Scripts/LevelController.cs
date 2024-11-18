@@ -85,7 +85,7 @@ public class LevelController : MonoBehaviour
             return;
         }
         isOnTestPlay = true;
-        txtBtnPlay.text = "Stop";
+        txtBtnPlay.text = "Parar";
         playerInstance = Instantiate(player, spawn.spawnPoint.position, Quaternion.identity);
         playCamera.target = playerInstance.transform;
         playCamera.gameObject.SetActive(true);
@@ -100,7 +100,7 @@ public class LevelController : MonoBehaviour
         playCamera.target = null;
         playCamera.gameObject.SetActive(false);
         editorCamera.gameObject.SetActive(true);
-        txtBtnPlay.text = "Play";
+        txtBtnPlay.text = "Jogar";
         isOnTestPlay = false;
         Destroy(playerInstance);
         playerInstance = null;

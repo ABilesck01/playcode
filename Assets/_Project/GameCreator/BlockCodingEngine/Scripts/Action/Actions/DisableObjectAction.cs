@@ -7,7 +7,6 @@ public class DisableObjectAction : BaseAction
     {
         id = Guid.NewGuid();
         this.Name = "Destruir objeto";
-        this.TutorialText = "Tira o objeto de cena";
     }
 
     public override void Execute(EventBlock block)

@@ -9,6 +9,7 @@ public class MainMenuController : MonoBehaviour
     public Button btnCreate;
     public Button btnPlay;
     public Button btnProfile;
+    public Button btnTutorial;
     public Button[] btnBackToMain;
 
     [Header("Screens")]
@@ -16,12 +17,14 @@ public class MainMenuController : MonoBehaviour
     public GameObject createScreen;
     public GameObject playScreen;
     public GameObject profileScreen;
+    public GameObject tutorialScreen;
 
     private void Awake()
     {
         btnCreate.onClick.AddListener(BtnCreateClick);
         btnPlay.onClick.AddListener(BtnPlayClick);
         btnProfile.onClick.AddListener(BtnProfileClick);
+        btnTutorial.onClick.AddListener(BtnTutorialClick);
         for (int i = 0; i < btnBackToMain.Length; i++)
         {
             btnBackToMain[i].onClick.AddListener(BackToMainClick);
@@ -53,5 +56,11 @@ public class MainMenuController : MonoBehaviour
     {
         mainScreen.SetActive(false);
         profileScreen.SetActive(true);
+    }
+
+    private void BtnTutorialClick()
+    {
+        mainScreen.SetActive(false);
+        tutorialScreen.SetActive(true);
     }
 }

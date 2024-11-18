@@ -17,7 +17,6 @@ public class ShowTextAction : BaseAction
     {
         id = Guid.NewGuid();
         this.Name = "Mostrar texto";
-        this.TutorialText = "Use this command to display a text in view";
     }
 
     public override void Execute(EventBlock block)

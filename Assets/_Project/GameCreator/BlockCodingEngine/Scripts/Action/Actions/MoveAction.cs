@@ -16,7 +16,6 @@ public class MoveAction : BaseAction
     {
         id = Guid.NewGuid();
         this.Name = "Mover";
-        this.TutorialText = "Move o evento na direção desejada";
     }
 
     public override void Execute(EventBlock block)

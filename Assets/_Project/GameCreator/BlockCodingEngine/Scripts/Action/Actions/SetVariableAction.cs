@@ -30,7 +30,6 @@ public class SetVariableAction : BaseAction
     {
         id = Guid.NewGuid();
         this.Name = "Variavel";
-        this.TutorialText = "Use this command to change a value in memory.";
     }
 
     public override void Execute(EventBlock block)
